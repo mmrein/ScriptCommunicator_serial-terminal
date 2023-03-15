@@ -45,7 +45,7 @@ function readConsoleSetting()
 	}
 }
 
-function addDataToConsole(data, fontColor)
+function addStrToConsole(strData, fontColor)
 {
 	var stringToAdd = "<span style=\"font-family:'"+ g_settings.font;
 	stringToAdd += "';font-size:" + g_settings.fontSize + "pt;color:#" + fontColor + "\">";
@@ -62,7 +62,7 @@ function addDataToConsole(data, fontColor)
 	var newLineAtByte = String.fromCharCode(g_settings.newLineAtByte);
 	
 	//Replace all HTML characters (all but '\n').
-	stringToAdd += UI_TextEdit1.replaceNonHtmlChars(conv.byteArrayToUtf8String(data), false);
+	stringToAdd += UI_TextEdit1.replaceNonHtmlChars(strData, false);
 	
 	if(g_settings.createNewLineAtByte)
 	{
@@ -104,7 +104,7 @@ function dataSendSlot(data)
 {
 	if(g_settings.showSendData)
 	{
-		addDataToConsole(data, g_settings.sendColor);
+		addStrToConsole(conv.byteArrayToUtf8String(data), g_settings.sendColor);
 	}
 }
 
@@ -126,7 +126,7 @@ function dataReceivedSlot(data)
 		//var idx = stringData.search(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, "");
 		
 		// Print first element of array (data before first escape char), using stored color from previous run:
-		addDataToConsole(conv.stringToArray(stringArray[0]), g_textColor);
+		addStrToConsole(stringArray[0], g_textColor);
 
 		// Process following elements:
 		for(var i=1; i<stringArray.length; i++) 
@@ -167,7 +167,7 @@ function dataReceivedSlot(data)
 			else g_textColor = "000000"
 			
 			// Convert and print processed string data back to array so main console can show it:
-			addDataToConsole(conv.stringToArray(stringArray[i]), g_textColor);				
+			addStrToConsole(stringArray[i], g_textColor);				
 		}
 	}
 }
